@@ -33,8 +33,9 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.savedLocations.forEach((location:Location)=>{
       L.marker(location.latlng).addTo(this.map)
       .bindPopup(`<b>${location.name}</b><br>
-        <b>type: </b> ${location.type}
-        <b>logo: </b> ${location.logo} ${JSON.stringify(location)}
+        <b>type: </b> ${location.type}<br>
+        <b>latlng: </b> ${location.latlng}<br>
+        <b>logo: </b> ${location.logo}<br>
       `)
     })
  
