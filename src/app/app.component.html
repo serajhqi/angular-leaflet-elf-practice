@@ -2,12 +2,91 @@
   <app-map (onMapClick)="onMapClick($event)"></app-map>
   <app-popup [visible]="popupVisible" (onClose)="onPopupClose()">
     <div title>{{popupMode === 'new'?'Share Location':'Edit Location'}}</div>
-    <div body>
-      salam from body
+    
+    <div body class="popup-body">
+      <form  [formGroup]="locationForm" id="locationForm" (ngSubmit)="onSubmit()">
+
+        <div class="popup-body-section">
+          <div class="popup-body-item-title">Location name:</div>
+          <div class="popup-body-item">
+            <input 
+              name="name"
+              type="text" 
+              required 
+              minlength="4" 
+              formControlName="name"
+            />
+          </div>
+        </div>
+
+        <div class="popup-body-section">
+          <div class="popup-body-item-title">Location on map:
+            <div id="map-loading">
+              <p *ngIf="mapLoading">Loading...</p>
+            </div>
+          </div>
+          <div class="popup-body-item">
+            <div id="popup-map"></div>
+          </div>
+          <input 
+            name="latlng" 
+            required 
+            hidden 
+            formControlName="latlng" 
+          />
+        </div>
+
+        <div class="popup-body-section">
+          <div class="popup-body-item-title">Location type:</div>
+          <div class="popup-body-item">
+            <select 
+              name="locationType" 
+              required 
+              formControlName="type" 
+            >
+              <option *ngFor="let type of locationTypes">{{type}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="popup-body-section">
+          <div class="popup-body-item-title">Logo:</div>
+          <div class="popup-body-item">
+            <input 
+              type="file" 
+              formControlName="logo"
+            />
+          </div>
+        </div>
+        
+
+       <div class="validation-errors">
+        <div *ngIf="locationName?.invalid && (locationName?.dirty || locationName?.touched)">
+          <div *ngIf="locationName?.errors?.['required']">
+            Name is required
+          </div>
+          <div *ngIf="locationName?.errors?.['minlength']">
+            Name min length is 4.
+          </div>
+        </div>
+        <div *ngIf="locationType?.invalid && (locationType?.dirty || locationType?.touched)">
+          <div *ngIf="locationType?.errors?.['required']">
+            Type is required
+          </div>
+        </div>
+        <div *ngIf="locationLatlng?.invalid && (locationLatlng?.dirty || locationLatlng?.touched)">
+          <div *ngIf="locationLatlng?.errors?.['required']">
+            Lntlng is required
+          </div>
+        </div>
+       </div>
+      </form>
     </div>
+
     <div footer>
       <button class="popup-cancel-button" style="margin-right: 6px;" (click)="onPopupClose()">Cancel</button>
-      <button class="popup-save-button" (click)="saveLocation()">Save</button>
+      <button class="popup-save-button" type="submit" form="locationForm" >Save</button>
     </div>
   </app-popup>
+
 </div>
