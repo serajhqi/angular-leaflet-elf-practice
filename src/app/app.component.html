@@ -1,6 +1,6 @@
 <div id="container">
   <app-map (onMapClick)="onMapClick($event)"></app-map>
-  <app-popup [visible]=true>
+  <app-popup [visible]="popupVisible" (onClose)="onPopupClose()">
     <div title>Hello</div>
     <div body>
       salam from body

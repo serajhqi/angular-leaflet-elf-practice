@@ -7,9 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'location-spots';
+  popupVisible = false;
+
+  onPopupClose(){
+    this.popupVisible = false;
+  }
 
   onMapClick(e:any){
     console.log(e.latlng);
-    
+    this.popupVisible = true;
   }
 }
