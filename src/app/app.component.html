@@ -1,5 +1,5 @@
 <div id="container">
-  <app-map (onMapClick)="onMapClick($event)"></app-map>
+  <app-map (onMapClick)="onMapClick($event)" [savedLocations]="savedLocations"></app-map>
   <app-popup [visible]="popupVisible" (onClose)="onPopupClose()">
     <div title>{{popupMode === 'new'?'Share Location':'Edit Location'}}</div>
     
