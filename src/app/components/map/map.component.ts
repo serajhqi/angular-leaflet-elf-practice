@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as L from "leaflet";
-import { Observable, map } from 'rxjs';
-import { Location } from 'src/app/app.component';
-
+import type {Location} from "../../app.component"
 L.Marker.prototype.options.icon = L.icon({
   iconUrl: "/assets/marker-icon.png",
   shadowUrl: "/assets/marker-shadow.png"
@@ -32,15 +30,12 @@ export class MapComponent implements OnInit, AfterViewInit {
       maxZoom: 19,
     }).addTo(this.map);
 
-    // L.marker(this.defaultLocation).addTo(this.map)
-    //   .bindPopup('A pretty CSS3 popup.<br> Easily customizable.');
-      
-    // L.marker([11.206051, 122.57886]).addTo(this.map)
-    //   .bindPopup('A pretty CSS3 popup.<br> Easily seraj. <p class="salam">Salam</p>')
-      
-    this.savedLocations.forEach((location)=>{
+    this.savedLocations.forEach((location:Location)=>{
       L.marker(location.latlng).addTo(this.map)
-      .bindPopup(location.name)
+      .bindPopup(`<b>${location.name}</b><br>
+        <b>type: </b> ${location.type}
+        <b>logo: </b> ${location.logo} ${JSON.stringify(location)}
+      `)
     })
  
     this.map.on('click',(e)=>{
