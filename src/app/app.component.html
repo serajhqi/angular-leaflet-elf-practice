@@ -21,12 +21,9 @@
 
         <div class="popup-body-section">
           <div class="popup-body-item-title">Location on map:
-            <div id="map-loading">
-              <p *ngIf="mapLoading">Loading...</p>
-            </div>
           </div>
           <div class="popup-body-item">
-            <div id="popup-map"></div>
+            <app-mini-map [location]="location.latlng" *ngIf="popupVisible"></app-mini-map>
           </div>
           <input 
             name="latlng" 

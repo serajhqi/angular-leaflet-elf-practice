@@ -1,0 +1,13 @@
+#mini-map{
+    height: 200px;
+    width: 300px;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+
+#map-state{
+    color: blue;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
