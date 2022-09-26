@@ -1,0 +1,43 @@
+#container{
+    height: 100vh;
+    width: 100vw;
+}
+
+.popup-save-button{
+    background-color: lightgray;
+    border-radius: 2px;
+    border: none;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.popup-save-button:hover{
+    background-color: green;
+    color: white;
+    border-radius: 2px;
+}
+.popup-save-button:focus{
+    background-color: darkcyan;
+    color: white;
+    border-radius: 2px;
+}
+
+
+
+
+.popup-cancel-button{
+    background-color: transparent;
+    border: none;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.popup-cancel-button:hover{
+    background-color: red;
+    color: white;
+}
+.popup-cancel-button:focus{
+    background-color: orange;
+}
