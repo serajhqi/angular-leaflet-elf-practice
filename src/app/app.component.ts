@@ -64,7 +64,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   onSubmit(){
     this.locationForm.markAllAsTouched();
     if (this.locationForm.valid) {
-      this.storgeService.saveLocation(this.location);
+      this.storgeService.saveLocation(this.locationForm.value as Location);
       this.savedLocations = this.storgeService.getLocations();
       this.popupVisible = false;
       this.notificationService.notify({title:'Location Saved', content:'',toastType:'success'});
@@ -74,6 +74,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   onPopupClose(){
     this.popupVisible = false;
+    this.locationForm.reset();
   }
 
   onMapClick(e:any){

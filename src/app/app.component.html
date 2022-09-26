@@ -23,12 +23,13 @@
           <div class="popup-body-item-title">Location on map:
           </div>
           <div class="popup-body-item">
-            <app-mini-map [location]="location.latlng" *ngIf="popupVisible"></app-mini-map>
+            <app-mini-map [location]="location.latlng" *ngIf="popupVisible" ></app-mini-map>
           </div>
           <input 
             name="latlng" 
             required 
             hidden 
+            [(ngModel)]="location.latlng"
             formControlName="latlng" 
           />
         </div>
@@ -37,11 +38,11 @@
           <div class="popup-body-item-title">Location type:</div>
           <div class="popup-body-item">
             <select 
-              name="locationType" 
+              name="type" 
               required 
               formControlName="type" 
             >
-              <option *ngFor="let type of locationTypes">{{type}}</option>
+              <option *ngFor="let type of locationTypes" selected="Favorite">{{type}}</option>
             </select>
           </div>
         </div>
