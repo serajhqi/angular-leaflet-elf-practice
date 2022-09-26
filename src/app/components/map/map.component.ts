@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as L from "leaflet";
 import { Observable, map } from 'rxjs';
 
@@ -14,8 +14,8 @@ L.Marker.prototype.options.icon = L.icon({
 })
 export class MapComponent implements OnInit, AfterViewInit {
   private map!: L.Map;
-  @Input() defaultLocation: L.LatLngExpression = [11.206051, 122.447886]
-  @Input() defaultZoomLevel: number = 10
+  @Input() defaultLocation: L.LatLngExpression = [11.206051, 122.447886];
+  @Input() defaultZoomLevel: number = 9;
   @Input() locationSpots: [string, number, number][] = [
     ["LOCATION_1", 11.8166, 122.0942],
     ["LOCATION_2", 11.9804, 121.9189],
@@ -23,6 +23,9 @@ export class MapComponent implements OnInit, AfterViewInit {
     ["LOCATION_4", 11.3889, 122.6277],
     ["LOCATION_5", 10.5929, 122.6325]
   ];
+
+  @Output() onMapClick: EventEmitter<any> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -45,7 +48,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       .bindPopup(item[0])
     })
  
-
+    this.map.on('click',(e)=>{
+      this.onMapClick.emit(e)
+    })
     
   }
 
