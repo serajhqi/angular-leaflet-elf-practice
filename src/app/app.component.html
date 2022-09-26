@@ -1,6 +1,13 @@
 <div id="container">
-  <app-map (onMapClick)="onMapClick($event)" [savedLocations]="savedLocations" [defaultLocation]="defaultLocation"></app-map>
-  <app-popup [visible]="popupVisible" (onClose)="onPopupClose()">
+  <app-map 
+    (onMapClick)="onMapClick($event)"
+    (onPopupOpen)="onMarkerPopupOpen($event)"
+    [savedLocations]="savedLocations"
+    [defaultLocation]="defaultLocation"></app-map>
+  <app-popup 
+    [visible]="popupVisible"
+    (onClose)="onPopupClose()"
+  >
     <div title>{{popupMode === 'new'?'Share Location':'Edit Location'}}</div>
     
     <div body class="popup-body">
@@ -10,6 +17,7 @@
           <div class="popup-body-item-title">Location name:</div>
           <div class="popup-body-item">
             <input 
+              style="width: 295px;"
               name="name"
               type="text" 
               required 
@@ -29,7 +37,7 @@
             name="latlng" 
             required 
             hidden 
-            [(ngModel)]="location.latlng"
+            [value]="location.latlng"
             formControlName="latlng" 
           />
         </div>
@@ -38,11 +46,12 @@
           <div class="popup-body-item-title">Location type:</div>
           <div class="popup-body-item">
             <select 
+              [value]="location.type"
               name="type" 
               required 
               formControlName="type" 
             >
-              <option *ngFor="let type of locationTypes" selected="Favorite">{{type}}</option>
+              <option *ngFor="let type of locationTypes">{{type}}</option>
             </select>
           </div>
         </div>
