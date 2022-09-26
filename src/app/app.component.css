@@ -18,12 +18,16 @@
     border-radius: 2px;
 }
 .popup-save-button:focus{
-    background-color: darkcyan;
+    background-color: darkgreen;
     color: white;
     border-radius: 2px;
 }
 
-
+.validation-errors{
+    color: red;
+    text-align: center;
+    font-size: 12px;
+}
 
 
 .popup-cancel-button{
@@ -40,4 +44,38 @@
 }
 .popup-cancel-button:focus{
     background-color: orange;
+}
+
+.popup-body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.popup-body-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.popup-body-item-title{
+    width: 30%;
+}.popup-body-item{
+    width: 70%;
+}
+
+#popup-map{
+    height: 200px;
+    width: 300px;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+}
+
+#map-loading{
+    font-size: 10px;
+    text-align: center;
+    color: blue;
 }
