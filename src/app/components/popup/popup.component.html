@@ -1,1 +1,19 @@
-<p>popup works!</p>
+<div class="popup-container" *ngIf="visible"></div>
+<div class="popup" *ngIf="visible">
+    <div class="title-bar">
+        <div class="title">
+            <ng-content select="[title]"></ng-content>
+        </div>
+        <div class="close-button">
+            <button (click)="close()" class="close-button">
+                x
+            </button>
+        </div>
+    </div>
+    <div class="body">
+        <ng-content select="[body]"></ng-content>
+    </div>
+    <div class="footer">
+        <ng-content select="[footer]"></ng-content>
+    </div>
+</div>

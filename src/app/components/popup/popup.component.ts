@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-popup',
@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./popup.component.css']
 })
 export class PopupComponent implements OnInit {
+  @Input() visible: boolean = false;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
   }
 
+  close(){
+    console.log("closed");
+    this.visible = false;
+  }
 }
