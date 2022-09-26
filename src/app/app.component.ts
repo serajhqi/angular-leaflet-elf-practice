@@ -1,11 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import * as L from 'leaflet';
+import { NotificationService } from './services/notification.service';
 import { StorageService } from './services/storage.service';
-L.Marker.prototype.options.icon = L.icon({
-  iconUrl: "/assets/marker-icon.png",
-  shadowUrl: "/assets/marker-shadow.png"
-});
 
 export type LocationTypes = "Business"|"Friend"|"Home"|"Favorite";
 export type Location = {
@@ -22,20 +18,15 @@ export type Location = {
 })
 export class AppComponent implements AfterViewInit, OnInit {
 
-  popupMap!: L.Map;
-  constructor(private storgeService: StorageService){}
+  constructor(private storgeService: StorageService, private notificationService: NotificationService){}
 
   ngAfterViewInit(): void {
-    this.popupMap = L.map('popup-map').setView(this.defaultLocation, 15);
-    const tile_layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      }).addTo(this.popupMap);
-    tile_layer.on("load",() =>  this.mapLoading = false);
-    tile_layer.on("loading",() => this.mapLoading = true );
+    
   }
   ngOnInit(): void {
       this.savedLocations = this.storgeService.getLocations();
   }
-
+  
   popupVisible = false;
   popupMode :'edit'|'new' = 'new';
   loading: boolean = false;
@@ -73,11 +64,10 @@ export class AppComponent implements AfterViewInit, OnInit {
   onSubmit(){
     this.locationForm.markAllAsTouched();
     if (this.locationForm.valid) {
-      //saveit
-      console.log(this.location);
       this.storgeService.saveLocation(this.location);
       this.savedLocations = this.storgeService.getLocations();
       this.popupVisible = false;
+      this.notificationService.notify({title:'Location Saved', content:'',toastType:'success'})
     } 
   }
 
@@ -86,11 +76,8 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   onMapClick(e:any){
-    console.log(e.latlng);
     this.popupVisible = true;
     this.location.latlng = [e.latlng?.lat, e.latlng.lng];
-      this.popupMap.setView(this.location.latlng, 12)
-      L.marker(this.location.latlng).addTo(this.popupMap);
   }
 
 }
