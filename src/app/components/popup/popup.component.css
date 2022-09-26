@@ -28,8 +28,9 @@
     border-bottom: 1px solid lightgray;
 }
 .title{
-    font-size: 14px;
+    font-size: 16px;
     vertical-align: middle;
+    font-weight: 600;
 }
 .body{
     padding: 5px;
@@ -37,18 +38,7 @@
 .footer{
     padding: 10px;
     border-top: 1px solid lightgray;
-}
-
-.close-button{
-    width: 40px;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    vertical-align: middle;
-    font-weight: 500;
-    color: grey;
-    text-align: right;
-}
-.close-button:hover{
-    color: black;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
 }
