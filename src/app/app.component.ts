@@ -67,7 +67,8 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.storgeService.saveLocation(this.location);
       this.savedLocations = this.storgeService.getLocations();
       this.popupVisible = false;
-      this.notificationService.notify({title:'Location Saved', content:'',toastType:'success'})
+      this.notificationService.notify({title:'Location Saved', content:'',toastType:'success'});
+      this.locationForm.reset();
     } 
   }
 
