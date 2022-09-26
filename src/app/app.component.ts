@@ -32,7 +32,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   loading: boolean = false;
 
   locationTypes : LocationTypes[] = ['Business', 'Friend', 'Home', 'Favorite'];
-  defaultLocation: L.LatLngExpression = [11.206051, 122.447886]; 
+  defaultLocation: L.LatLngExpression = [51.5, -.9]; 
   savedLocations: Location[] = [];
 
   mapLoading: boolean = false;

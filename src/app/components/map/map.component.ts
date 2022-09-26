@@ -13,7 +13,7 @@ L.Marker.prototype.options.icon = L.icon({
 })
 export class MapComponent implements OnInit, AfterViewInit {
   private map!: L.Map;
-  @Input() defaultLocation: L.LatLngExpression = [11.206051, 122.447886];
+  @Input() defaultLocation!: L.LatLngExpression;
   @Input() defaultZoomLevel: number = 9;
   @Input() savedLocations: Location[] = [];
 
