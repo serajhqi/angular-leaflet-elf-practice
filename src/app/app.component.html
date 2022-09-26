@@ -1,12 +1,13 @@
 <div id="container">
   <app-map (onMapClick)="onMapClick($event)"></app-map>
   <app-popup [visible]="popupVisible" (onClose)="onPopupClose()">
-    <div title>Hello</div>
+    <div title>{{popupMode === 'new'?'Share Location':'Edit Location'}}</div>
     <div body>
       salam from body
     </div>
     <div footer>
-      hello from footer
+      <button class="popup-cancel-button" style="margin-right: 6px;" (click)="onPopupClose()">Cancel</button>
+      <button class="popup-save-button" (click)="saveLocation()">Save</button>
     </div>
   </app-popup>
 </div>

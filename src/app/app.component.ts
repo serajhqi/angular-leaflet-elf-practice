@@ -7,7 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'location-spots';
-  popupVisible = false;
+  popupVisible = true;
+  popupMode :'edit'|'new' = 'edit';
+  loading: boolean = false;
 
   onPopupClose(){
     this.popupVisible = false;
@@ -16,5 +18,9 @@ export class AppComponent {
   onMapClick(e:any){
     console.log(e.latlng);
     this.popupVisible = true;
+  }
+
+  saveLocation(){
+    this.popupVisible = false;
   }
 }
