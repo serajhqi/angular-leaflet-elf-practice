@@ -74,12 +74,43 @@ export class AppComponent implements OnInit {
   }
 
   onMapClick(e: any) {
+    this.popupMode = 'new';
     this.popupVisible = true;
     this.location.latlng = [e.latlng?.lat, e.latlng.lng];
     this.locationForm.setValue({ ...this.location, latlng: [e.latlng?.lat, e.latlng.lng] })
   }
 
-  onMarkerPopupOpen(e: any){
-    console.log(e,'ppo')
+  editLocation(id:string){
+    const location = this.storgeService.getLocation(id);
+    if(!location){
+      this.notificationService.notify({title:'Not found',content:'',toastType:'error'});
+      return;
+    }else{
+      this.locationForm.setValue({
+        name: location.name,
+        type: location.type,
+        latlng: location.latlng,
+        logo: location.logo
+      });
+      this.popupMode = 'edit';
+      this.popupVisible = true;
+    }
+  }
+  
+  updateLocation(){
+    if(!this.focusedMarkerId || !this.locationForm.valid) return;
+    
+    this.savedLocations = this.storgeService.updateLocation(this.focusedMarkerId, this.locationForm.value as Location);
+    this.notificationService.notify({title:'Location Removed', content:'',   toastType:'error'});
+    this.locationForm.reset(this.location);
+    this.popupVisible = false;
+  }
+
+  focusedMarkerId?: string;
+  onMarkerPopupOpen(id: string){
+    this.focusedMarkerId = id;
+  } 
+  onMarkerPopupClose(){
+    this.focusedMarkerId = undefined;
   }
 }

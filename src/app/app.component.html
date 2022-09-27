@@ -2,6 +2,7 @@
   <app-map 
     (onMapClick)="onMapClick($event)"
     (onPopupOpen)="onMarkerPopupOpen($event)"
+    (onPopupClose)="onMarkerPopupClose()"
     [savedLocations]="savedLocations"
     [defaultLocation]="defaultLocation"></app-map>
   <app-popup 
@@ -92,8 +93,11 @@
 
     <div footer>
       <button class="popup-cancel-button" style="margin-right: 6px;" (click)="onPopupClose()">Cancel</button>
-      <button class="popup-save-button" type="submit" form="locationForm" >Save</button>
+      <button class="popup-save-button" type="submit" form="locationForm" >{{popupMode === 'new'?'Save':'Update'}}</button>
     </div>
   </app-popup>
 
+  <app-taskbar 
+  (onEditClick)="editLocation($event)"
+  [targetId]="focusedMarkerId"></app-taskbar>
 </div>
