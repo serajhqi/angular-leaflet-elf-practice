@@ -26,11 +26,12 @@ export class StorageService {
 			JSON.parse(localStorage.getItem('locations') as string):[];
 	}
 
-	updateLocation(id: string, location: Location) {
+	updateLocation(id: string, location: Location): Location[] {
 		const locations = this.getLocations();
 		const targetLocationIndex = locations.findIndex((item => item.id == location.id));
 		locations[targetLocationIndex] = location;
 		localStorage.setItem(MAINKEY, JSON.stringify(locations));
+		return locations;
 	}
 
 	removeLocation(id: string): Location[] {
