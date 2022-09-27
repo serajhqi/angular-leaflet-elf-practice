@@ -19,6 +19,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() savedLocations!: Location[];
   @Output() onMapClick: EventEmitter<any> = new EventEmitter();
   @Output() onPopupOpen: EventEmitter<any> = new EventEmitter();
+  @Output() onPopupClose: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -46,12 +47,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   dropMarkers(): void{
     this.savedLocations.forEach((location)=>{
       this.map && L.marker((location as Location).latlng).addTo(this.map)
-      .bindPopup(`<b>${(location as Location).name}</b><br>
-        <b>type: </b> ${(location as Location).type}<br>
-        <b>latlng: </b> ${(location as Location).latlng}<br>
-        <b>logo: </b> ${(location as Location).logo}<br>
+      .bindPopup(`
+        <b>Title: </b> ${(location as Location).name}<br>
+        <b>Type: </b> ${(location as Location).type}<br>
+        <b>Lat,Lng: </b> ${(location as Location).latlng}<br>
+        <b>Logo: </b> ${(location as Location).logo}<br>
       `).on('popupopen',()=>{
         this.onPopupOpen.emit(location.id);
+      }).on('popupclose',()=>{
+        this.onPopupClose.emit()
       })
     })
   }
