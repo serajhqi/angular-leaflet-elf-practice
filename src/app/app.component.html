@@ -4,13 +4,14 @@
     (onPopupOpen)="onMarkerPopupOpen($event)"
     (onPopupClose)="onMarkerPopupClose()"
     [savedLocations]="savedLocations"
-    [defaultLocation]="defaultLocation"></app-map>
+    [defaultLocation]="defaultLocation">
+  </app-map>
+
   <app-popup 
     [visible]="popupVisible"
     (onClose)="onPopupClose()"
   >
     <div title>{{popupMode === 'new'?'Share Location':'Edit Location'}}</div>
-    
     <div body class="popup-body">
       <form  [formGroup]="locationForm" id="locationForm" (ngSubmit)="onSubmit()">
 
@@ -60,14 +61,14 @@
         <div class="popup-body-section">
           <div class="popup-body-item-title">Logo:</div>
           <div class="popup-body-item">
-            <input 
+            <input
+              [disabled]="true"
               type="file" 
               formControlName="logo"
             />
           </div>
         </div>
         
-
        <div class="validation-errors">
         <div *ngIf="locationName?.invalid && (locationName?.dirty || locationName?.touched)">
           <div *ngIf="locationName?.errors?.['required']">
@@ -77,6 +78,7 @@
             Name min length is 4.
           </div>
         </div>
+
         <div *ngIf="locationType?.invalid && (locationType?.dirty || locationType?.touched)">
           <div *ngIf="locationType?.errors?.['required']">
             Type is required
@@ -90,7 +92,6 @@
        </div>
       </form>
     </div>
-
     <div footer>
       <button class="popup-cancel-button" style="margin-right: 6px;" (click)="onPopupClose()">Cancel</button>
       <button class="popup-save-button" type="submit" form="locationForm" >{{popupMode === 'new'?'Save':'Update'}}</button>
@@ -98,6 +99,7 @@
   </app-popup>
 
   <app-taskbar 
-  (onEditClick)="editLocation($event)"
-  [targetId]="focusedMarkerId"></app-taskbar>
+    (onEditClick)="openEditModal($event)"
+    [targetId]="focusedMarkerId">
+  </app-taskbar>
 </div>
