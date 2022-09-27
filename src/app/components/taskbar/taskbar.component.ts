@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Location } from '../app.component';
-import { StorageService } from '../services/storage.service';
+import { Location } from '../../app.component';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-taskbar',

@@ -9,7 +9,7 @@ import { PopupComponent } from './components/popup/popup.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MiniMapComponent } from './components/mini-map/mini-map.component';
-import { TaskbarComponent } from './taskbar/taskbar.component';
+import { TaskbarComponent } from './components/taskbar/taskbar.component';
 
 @NgModule({
   declarations: [
