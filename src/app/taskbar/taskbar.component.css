@@ -1,0 +1,30 @@
+.taskbar-container{
+    position: absolute;
+    bottom: 0;
+    height: 30px;
+    width: 100%;
+    z-index: 3000;
+    display: flex;
+    flex-direction: row;
+    border-top: 2px solid lightgray;
+    justify-content: center;
+    justify-items: center;
+    background-color: black;
+    opacity: .5;
+}
+.title{
+    position: relative;
+    background-color: transparent;
+    color: white;
+    font-weight: 500;
+    padding-left: 20px;
+}
+
+.edit-button{
+    background-color: white;
+    border: none;
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: black;
+}

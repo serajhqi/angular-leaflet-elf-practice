@@ -1,0 +1,11 @@
+<div class="taskbar-container">
+        <div class="title">
+            {{location?.name || 'No Location Is Selected'}}
+            <button 
+                *ngIf="location?.name"
+                (click)="onEditBnClick()"
+                class="edit-button"
+                style="margin-left: 10px;"
+            >Edit</button>
+        </div>
+</div>
