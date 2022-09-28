@@ -32,10 +32,21 @@ export class MapComponent implements AfterViewInit {
     this.map.on('click',(e)=>{
       this.onMapClick.emit(e)
     })
-    
+
+    const markers: L.Marker<any>[] = [];
     this.locationsRepo.locations$.subscribe((locs)=>{
-      locs.forEach((location)=>{
-        this.map && L.marker((location).latlng).addTo(this.map)
+
+      markers.forEach((marker)=>{
+        if(!locs.find(item => item.latlng === marker.getLatLng() )){
+          marker.removeFrom(this.map);
+        }
+      })
+      
+      this.map && locs.forEach((location)=>{
+
+        if(markers.find(item => item.getLatLng() === location.latlng )) return;
+
+        const marker = L.marker((location).latlng).addTo(this.map)
         .bindPopup(`
           <b>Title: </b> ${(location).name}<br>
           <b>Type: </b> ${(location).type}<br>
@@ -46,6 +57,7 @@ export class MapComponent implements AfterViewInit {
         }).on('popupclose',()=>{
           this.locationsRepo.clearTargetForEdit();
         })
+        markers.push(marker);
       })
     })
   }

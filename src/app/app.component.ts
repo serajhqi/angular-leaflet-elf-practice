@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from './services/notification.service';
 import { LocationRepository, LocationTypes, Location } from './services/state.service';
 
-
+const STORAGE_KEY = 'locations';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +13,13 @@ export class AppComponent implements OnInit {
 
   constructor(private notificationService: NotificationService, private locationsRepo: LocationRepository) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.locationsRepo.setLocations(JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'))
+    this.locationsRepo.locations$.subscribe((locations)=>{
+      console.log('storage hit')
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(locations));
+		})
+  }
 
   popupVisible:boolean = false;
   popupMode: 'edit' | 'new' = 'new';
@@ -38,7 +44,9 @@ export class AppComponent implements OnInit {
     logo: new FormControl(this.location.logo)
   });
 
-  get locationName() {
+  get locationId() {
+    return this.locationForm.get('id');
+  } get locationName() {
     return this.locationForm.get('name');
   } get locationType() {
     return this.locationForm.get('type');
@@ -51,13 +59,25 @@ export class AppComponent implements OnInit {
   onSubmit() {
     this.locationForm.markAllAsTouched();
     if (this.locationForm.valid) {
+      if(this.popupMode === 'new'){
+        this.locationsRepo.addLocation(this.locationForm.value as Location);
+        this.notificationService.notify({title:'Location Saved', content:'',toastType:'success'});
+      }else{
+        this.locationsRepo.updateLocation(this.locationForm.value as Location);
+        this.notificationService.notify({title:'Location Updated', content:'',toastType:'success'});
+      }
       this.popupVisible = false;
-      this.locationsRepo.addLocation(this.locationForm.value as Location);
-      this.notificationService.notify({title:'Location Saved', content:'',toastType:'success'});
       this.locationForm.reset(this.location);
     }else{
       this.notificationService.notify({title:"Form Not Valid", content:"", toastType:"error"})
     }
+  }
+
+  deleteLocation(){
+    this.locationsRepo.removeLocation(this.locationId?.value);
+    this.popupVisible = false;
+    this.locationForm.reset(this.location);  
+    this.notificationService.notify({title:"Location Removed", content:'', toastType: 'error'})
   }
 
   onPopupClose() {
@@ -82,6 +102,7 @@ export class AppComponent implements OnInit {
       this.notificationService.notify({title:'Not found',content:'',toastType:'error'});
       return;
     }
+    this.location = location;
     this.locationForm.setValue(location);
     this.popupMode = 'edit';
     this.popupVisible = true; 

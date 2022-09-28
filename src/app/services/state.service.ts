@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
-import { filter, switchMap } from 'rxjs/operators';
-import { select, withProps, createStore, setProp } from '@ngneat/elf';
+import { select, withProps, createStore } from '@ngneat/elf';
 import {
   addEntities,
   deleteEntities,
   getEntity,
   selectAllEntities,
-  selectAllEntitiesApply,
   setEntities,
   updateEntities,
+  upsertEntities,
   withEntities,
 } from '@ngneat/elf-entities';
 import { nanoid } from 'nanoid';
-
-
 export interface Location {
   id: string,
   name: string,
@@ -50,11 +47,12 @@ export class LocationRepository {
   }
 
   updateLocation(location: Location){
+    console.log({location})
     store.update(
-      updateEntities(location.id, (location) => ({
-        ...location,
-      }))      
-    )
+      upsertEntities(
+        location
+      ))      
+    
   }
 
   removeLocation(id:string){
@@ -66,6 +64,7 @@ export class LocationRepository {
       ...state,
       targetForEdit: id
     }))
+    store.update()
   }
   
   clearTargetForEdit(){

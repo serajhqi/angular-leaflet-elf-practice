@@ -46,6 +46,24 @@
     background-color: orange;
 }
 
+.popup-delete-button{
+    background-color: red;
+    color: white;
+    border-radius: 2px;
+    border: none;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.popup-cancel-button:hover{
+    background-color: orangered;
+    color: white;
+}
+.popup-cancel-button:focus{
+    background-color: orange;
+}
+
 .popup-body{
     display: flex;
     justify-content: center;

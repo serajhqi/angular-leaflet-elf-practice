@@ -90,12 +90,11 @@
       </form>
     </div>
     <div footer>
+      <button *ngIf="popupMode === 'edit'" class="popup-delete-button" style="margin-right: 6px;" (click)="deleteLocation()">Delete</button>
       <button class="popup-cancel-button" style="margin-right: 6px;" (click)="onPopupClose()">Cancel</button>
       <button class="popup-save-button" type="submit" form="locationForm" >{{popupMode === 'new'?'Save':'Update'}}</button>
     </div>
   </app-popup>
 
-  <app-taskbar 
-    (onEditClick)="openEditModal($event)">
-  </app-taskbar>
+  <app-taskbar (onEditClick)="openEditModal($event)"></app-taskbar>
 </div>
