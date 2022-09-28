@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from './services/notification.service';
 import { StorageService } from './services/storage.service';
@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   defaultLocation: L.LatLngExpression = [51.5, -.9];
   savedLocations: Location[] = [];
   mapLoading: boolean = false;
+  focusedMarkerId?: string;
 
   location: Location = {
     name: '',
@@ -80,7 +81,7 @@ export class AppComponent implements OnInit {
     this.locationForm.setValue({ ...this.location, latlng: [e.latlng?.lat, e.latlng.lng] })
   }
 
-  editLocation(id:string){
+  openEditModal(id:string){
     const location = this.storgeService.getLocation(id);
     if(!location){
       this.notificationService.notify({title:'Not found',content:'',toastType:'error'});
@@ -106,7 +107,6 @@ export class AppComponent implements OnInit {
     this.popupVisible = false;
   }
 
-  focusedMarkerId?: string;
   onMarkerPopupOpen(id: string){
     this.focusedMarkerId = id;
   } 
