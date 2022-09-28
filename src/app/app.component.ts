@@ -72,6 +72,10 @@ export class AppComponent implements OnInit {
     this.locationForm.setValue({ ...this.location, latlng: [e.latlng?.lat, e.latlng.lng] })
   }
 
+  onMiniMapClick(e:any){
+    this.locationForm.setValue({...this.location,latlng:[e.latlng?.lat, e.latlng.lng]});
+  }
+
   openEditModal(id:string){
     const location = this.locationsRepo.getLocation(id);
     if(!location){

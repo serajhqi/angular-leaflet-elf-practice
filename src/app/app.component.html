@@ -30,7 +30,7 @@
           <div class="popup-body-item-title">Location on map:
           </div>
           <div class="popup-body-item">
-            <app-mini-map [location]="location.latlng" *ngIf="popupVisible" ></app-mini-map>
+            <app-mini-map [latlng]="location.latlng" *ngIf="popupVisible" (onMapClick)="onMiniMapClick($event)"></app-mini-map>
           </div>
           <input 
             name="latlng" 

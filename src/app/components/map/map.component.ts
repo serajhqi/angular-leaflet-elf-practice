@@ -4,7 +4,9 @@ import { LocationRepository } from 'src/app/services/state.service';
 
 L.Marker.prototype.options.icon = L.icon({
   iconUrl: "/assets/marker-icon.png",
-  shadowUrl: "/assets/marker-shadow.png"
+  shadowUrl: "/assets/marker-shadow.png",
+  iconAnchor:   [12, 40],
+  popupAnchor:  [0, -40]
 });
 
 @Component({
