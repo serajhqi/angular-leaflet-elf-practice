@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { nanoid } from 'nanoid';
-import { Location } from '../app.component';
+import { Location } from './state.service';
 const MAINKEY = "locations"
 @Injectable({
 	providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Location } from '../../app.component';
+import { Location } from '../../services/state.service';
 import { StorageService } from '../../services/storage.service';
 
 @Component({
