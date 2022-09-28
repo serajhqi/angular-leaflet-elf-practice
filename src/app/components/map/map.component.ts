@@ -17,8 +17,6 @@ export class MapComponent implements AfterViewInit {
   @Input() defaultLocation!: L.LatLngExpression;
   @Input() defaultZoomLevel: number = 9;
   @Output() onMapClick: EventEmitter<any> = new EventEmitter();
-  @Output() onPopupOpen: EventEmitter<any> = new EventEmitter();
-  @Output() onPopupClose: EventEmitter<any> = new EventEmitter();
 
   constructor(private locationsRepo: LocationRepository) {}
 
@@ -42,9 +40,9 @@ export class MapComponent implements AfterViewInit {
           <b>Lat,Lng: </b> ${(location).latlng}<br>
           <b>Logo: </b> ${(location).logo}<br>
         `).on('popupopen',()=>{
-          this.onPopupOpen.emit(location.id);
+          this.locationsRepo.setTargetForEdit(location.id);
         }).on('popupclose',()=>{
-          this.onPopupClose.emit()
+          this.locationsRepo.clearTargetForEdit();
         })
       })
     })

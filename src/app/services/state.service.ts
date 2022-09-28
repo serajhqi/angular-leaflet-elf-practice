@@ -28,25 +28,26 @@ export type LocationTypes =
 
 const store = createStore(
   { name: 'locations' },
-  withEntities<Location>()
+  withEntities<Location>(),
+  withProps<{targetForEdit:string|null}>({ targetForEdit: null })
 );
 
 @Injectable({ providedIn: 'root' })
 export class LocationRepository {
   locations$ = store.pipe(selectAllEntities());
+  tatgetLocation$ = store.pipe(select((state) => state.targetForEdit))
 
   setLocations(locations: Location[]) {
     store.update(setEntities(locations));
   }
 
   addLocation(location: Location) {
-    store.update(addEntities(location));
+    store.update(addEntities({...location, id: nanoid(5)}));
   } 
   
   getLocation(id: string) {
     return store.query(getEntity(id));
   }
-
 
   updateLocation(location: Location){
     store.update(
@@ -60,4 +61,17 @@ export class LocationRepository {
     store.update(deleteEntities(id));
   }
   
+  setTargetForEdit(id:string){
+    store.update((state)=>({
+      ...state,
+      targetForEdit: id
+    }))
+  }
+  
+  clearTargetForEdit(){
+    store.update((state)=>({
+      ...state,
+      targetForEdit: null
+    }))
+  }
 }
