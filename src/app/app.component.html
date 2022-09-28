@@ -1,11 +1,8 @@
 <div id="container">
   <app-map 
     (onMapClick)="onMapClick($event)"
-    (onPopupOpen)="onMarkerPopupOpen($event)"
-    (onPopupClose)="onMarkerPopupClose()"
-    [savedLocations]="savedLocations"
-    [defaultLocation]="defaultLocation">
-  </app-map>
+    [defaultLocation]="defaultLocation"
+  ></app-map>
 
   <app-popup 
     [visible]="popupVisible"
@@ -99,7 +96,6 @@
   </app-popup>
 
   <app-taskbar 
-    (onEditClick)="openEditModal($event)"
-    [targetId]="focusedMarkerId">
+    (onEditClick)="openEditModal($event)">
   </app-taskbar>
 </div>

@@ -1,16 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from './services/notification.service';
-import { StorageService } from './services/storage.service';
+import { LocationRepository, LocationTypes, Location } from './services/state.service';
 
-export type LocationTypes = "Business" | "Friend" | "Home" | "Favorite";
-export type Location = {
-  id?: string,
-  name: string,
-  type: LocationTypes,
-  latlng: L.LatLngExpression,
-  logo: string
-}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,23 +11,19 @@ export type Location = {
 })
 export class AppComponent implements OnInit {
 
-  constructor(private storgeService: StorageService, private notificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService, private locationsRepo: LocationRepository) { }
 
-  ngOnInit(): void {
-    this.savedLocations = this.storgeService.getLocations();
-  }
+  ngOnInit(): void {}
 
-  popupVisible = false;
+  popupVisible:boolean = false;
   popupMode: 'edit' | 'new' = 'new';
-  loading: boolean = false;
 
   locationTypes: LocationTypes[] = ['Business', 'Friend', 'Home', 'Favorite'];
   defaultLocation: L.LatLngExpression = [51.5, -.9];
   savedLocations: Location[] = [];
-  mapLoading: boolean = false;
-  focusedMarkerId?: string;
 
   location: Location = {
+    id:'',
     name: '',
     type: 'Business',
     latlng: this.defaultLocation,
@@ -42,6 +31,7 @@ export class AppComponent implements OnInit {
   }
 
   locationForm = new FormGroup({
+    id: new FormControl(),
     name: new FormControl(this.location.name, [Validators.required, Validators.minLength(4)]),
     type: new FormControl(this.location.type, [Validators.required]),
     latlng: new FormControl(this.location.latlng, [Validators.required]),
@@ -61,11 +51,12 @@ export class AppComponent implements OnInit {
   onSubmit() {
     this.locationForm.markAllAsTouched();
     if (this.locationForm.valid) {
-      this.storgeService.saveLocation(this.locationForm.value as Location);
-      this.savedLocations = this.storgeService.getLocations();
       this.popupVisible = false;
+      this.locationsRepo.addLocation(this.locationForm.value as Location);
       this.notificationService.notify({title:'Location Saved', content:'',toastType:'success'});
       this.locationForm.reset(this.location);
+    }else{
+      this.notificationService.notify({title:"Form Not Valid", content:"", toastType:"error"})
     }
   }
 
@@ -82,35 +73,21 @@ export class AppComponent implements OnInit {
   }
 
   openEditModal(id:string){
-    const location = this.storgeService.getLocation(id);
+    const location = this.locationsRepo.getLocation(id);
     if(!location){
       this.notificationService.notify({title:'Not found',content:'',toastType:'error'});
       return;
-    }else{
-      this.locationForm.setValue({
-        name: location.name,
-        type: location.type,
-        latlng: location.latlng,
-        logo: location.logo
-      });
-      this.popupMode = 'edit';
-      this.popupVisible = true;
     }
+    this.locationForm.setValue(location);
+    this.popupMode = 'edit';
+    this.popupVisible = true; 
   }
   
   updateLocation(){
-    if(!this.focusedMarkerId || !this.locationForm.valid) return;
-    
-    this.savedLocations = this.storgeService.updateLocation(this.focusedMarkerId, this.locationForm.value as Location);
-    this.notificationService.notify({title:'Location Removed', content:'',   toastType:'error'});
+    if(!this.locationForm.valid) return;
+    this.locationsRepo.updateLocation(this.locationForm.value as Location);
+    this.notificationService.notify({title:'Location updated', content:'',   toastType:'success'});
     this.locationForm.reset(this.location);
     this.popupVisible = false;
-  }
-
-  onMarkerPopupOpen(id: string){
-    this.focusedMarkerId = id;
-  } 
-  onMarkerPopupClose(){
-    this.focusedMarkerId = undefined;
   }
 }
