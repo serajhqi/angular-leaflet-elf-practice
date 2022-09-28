@@ -17,13 +17,10 @@ export class AppComponent implements OnInit {
 
   popupVisible:boolean = false;
   popupMode: 'edit' | 'new' = 'new';
-  loading: boolean = false;
 
   locationTypes: LocationTypes[] = ['Business', 'Friend', 'Home', 'Favorite'];
   defaultLocation: L.LatLngExpression = [51.5, -.9];
   savedLocations: Location[] = [];
-  mapLoading: boolean = false;
-  focusedMarkerId?: string;
 
   location: Location = {
     id:'',
@@ -80,16 +77,14 @@ export class AppComponent implements OnInit {
     if(!location){
       this.notificationService.notify({title:'Not found',content:'',toastType:'error'});
       return;
-    }else{
-      this.locationForm.setValue(location);
-      this.popupMode = 'edit';
-      this.popupVisible = true;
     }
+    this.locationForm.setValue(location);
+    this.popupMode = 'edit';
+    this.popupVisible = true; 
   }
   
   updateLocation(){
-    if(!this.focusedMarkerId || !this.locationForm.valid) return;
-    
+    if(!this.locationForm.valid) return;
     this.locationsRepo.updateLocation(this.locationForm.value as Location);
     this.notificationService.notify({title:'Location updated', content:'',   toastType:'success'});
     this.locationForm.reset(this.location);
