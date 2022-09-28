@@ -1373,6 +1373,16 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
+"@ngneat/elf-entities@^4.4.2":
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/@ngneat/elf-entities/-/elf-entities-4.4.2.tgz#9cf88d7b0ee73c6440ec7bb54b7e372b40b77c68"
+  integrity sha512-e9bgL7k9nI419IM1uSHt+WZYesCWhbsbs9+7QVDpXXMKCwCN8lofUX2aATiDxEmw+9riC5o45BGWaSLVMch1QA==
+
+"@ngneat/elf@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@ngneat/elf/-/elf-2.1.0.tgz#22b852daebbb6680ea8c60d9a7e5f92a72fee9c9"
+  integrity sha512-R5BeYoBQ9DgtjlWAE8eqaYyDI5zgRmND7mbgDdbG1JUisaOopcxLMDKZYI9+HWSHcfKPk+XHgFlKQfAl470lNw==
+
 "@ngtools/webpack@14.2.3":
   version "14.2.3"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-14.2.3.tgz#ce693ebaff5844f86ef2e93cd84c9710dc886e0a"

@@ -1,11 +1,8 @@
 <div id="container">
   <app-map 
     (onMapClick)="onMapClick($event)"
-    (onPopupOpen)="onMarkerPopupOpen($event)"
-    (onPopupClose)="onMarkerPopupClose()"
-    [savedLocations]="savedLocations"
-    [defaultLocation]="defaultLocation">
-  </app-map>
+    [defaultLocation]="defaultLocation"
+  ></app-map>
 
   <app-popup 
     [visible]="popupVisible"
@@ -33,7 +30,7 @@
           <div class="popup-body-item-title">Location on map:
           </div>
           <div class="popup-body-item">
-            <app-mini-map [location]="location.latlng" *ngIf="popupVisible" ></app-mini-map>
+            <app-mini-map [latlng]="location.latlng" *ngIf="popupVisible" (onMapClick)="onMiniMapClick($event)"></app-mini-map>
           </div>
           <input 
             name="latlng" 
@@ -93,13 +90,11 @@
       </form>
     </div>
     <div footer>
+      <button *ngIf="popupMode === 'edit'" class="popup-delete-button" style="margin-right: 6px;" (click)="deleteLocation()">Delete</button>
       <button class="popup-cancel-button" style="margin-right: 6px;" (click)="onPopupClose()">Cancel</button>
       <button class="popup-save-button" type="submit" form="locationForm" >{{popupMode === 'new'?'Save':'Update'}}</button>
     </div>
   </app-popup>
 
-  <app-taskbar 
-    (onEditClick)="openEditModal($event)"
-    [targetId]="focusedMarkerId">
-  </app-taskbar>
+  <app-taskbar (onEditClick)="openEditModal($event)"></app-taskbar>
 </div>

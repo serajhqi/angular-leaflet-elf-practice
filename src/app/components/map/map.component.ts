@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import * as L from "leaflet";
-import type {Location} from "../../app.component";
+import { LocationRepository } from 'src/app/services/state.service';
 
 L.Marker.prototype.options.icon = L.icon({
   iconUrl: "/assets/marker-icon.png",
-  shadowUrl: "/assets/marker-shadow.png"
+  shadowUrl: "/assets/marker-shadow.png",
+  iconAnchor:   [12, 40],
+  popupAnchor:  [0, -40]
 });
 
 @Component({
@@ -12,22 +14,13 @@ L.Marker.prototype.options.icon = L.icon({
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit, AfterViewInit, OnChanges {
+export class MapComponent implements AfterViewInit {
   private map!: L.Map;
   @Input() defaultLocation!: L.LatLngExpression;
   @Input() defaultZoomLevel: number = 9;
-  @Input() savedLocations!: Location[];
   @Output() onMapClick: EventEmitter<any> = new EventEmitter();
-  @Output() onPopupOpen: EventEmitter<any> = new EventEmitter();
-  @Output() onPopupClose: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.dropMarkers()
-  }
+  constructor(private locationsRepo: LocationRepository) {}
 
   ngAfterViewInit(): void {
     this.map = L.map('map').setView(this.defaultLocation, this.defaultZoomLevel);
@@ -35,27 +28,36 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
     }).addTo(this.map);
-
-    this.dropMarkers();
  
     this.map.on('click',(e)=>{
       this.onMapClick.emit(e)
     })
-    
-  }
 
-  dropMarkers(): void{
-    this.savedLocations.forEach((location)=>{
-      this.map && L.marker((location as Location).latlng).addTo(this.map)
-      .bindPopup(`
-        <b>Title: </b> ${(location as Location).name}<br>
-        <b>Type: </b> ${(location as Location).type}<br>
-        <b>Lat,Lng: </b> ${(location as Location).latlng}<br>
-        <b>Logo: </b> ${(location as Location).logo}<br>
-      `).on('popupopen',()=>{
-        this.onPopupOpen.emit(location.id);
-      }).on('popupclose',()=>{
-        this.onPopupClose.emit()
+    const markers: L.Marker<any>[] = [];
+    this.locationsRepo.locations$.subscribe((locs)=>{
+
+      markers.forEach((marker)=>{
+        if(!locs.find(item => item.latlng === marker.getLatLng() )){
+          marker.removeFrom(this.map);
+        }
+      })
+      
+      this.map && locs.forEach((location)=>{
+
+        if(markers.find(item => item.getLatLng() === location.latlng )) return;
+
+        const marker = L.marker((location).latlng).addTo(this.map)
+        .bindPopup(`
+          <b>Title: </b> ${(location).name}<br>
+          <b>Type: </b> ${(location).type}<br>
+          <b>Lat,Lng: </b> ${(location).latlng}<br>
+          <b>Logo: </b> ${(location).logo}<br>
+        `).on('popupopen',()=>{
+          this.locationsRepo.setTargetForEdit(location.id);
+        }).on('popupclose',()=>{
+          this.locationsRepo.clearTargetForEdit();
+        })
+        markers.push(marker);
       })
     })
   }
